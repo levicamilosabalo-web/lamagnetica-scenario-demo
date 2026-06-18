@@ -17,7 +17,7 @@ import os
 # PAGE CONFIG
 # ─────────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="LaMagnetica | Scenario Engine",
+    page_title="LaMagnet | Scenario Engine",
     page_icon="📊",
     layout="wide",
 )
@@ -478,8 +478,8 @@ def what_if_safe(ticker, revenue, inflation=None, rate=None, gdp=None):
 # ─────────────────────────────────────────────────────────────
 st.markdown("""
 <div class="brand-header">
-    <div class="brand-eyebrow">LaMagnetica · EADA Business School TFM</div>
-    <p class="brand-title">Sector-Based Cost & Profit Prediction</p>
+    <div class="brand-eyebrow">Scenario Engine</div>
+    <p class="brand-title">LaMagnet</p>
     <p class="brand-subtitle">
         Enter a revenue assumption for a company to see how it propagates through
         the cost structure into Gross Profit, EBITDA, Net Profit, and Free Cash Flow.
@@ -492,146 +492,145 @@ st.markdown("""
 col1, col2 = st.columns([1, 1])
 
 with col1:
-    st.markdown('<div class="card">', unsafe_allow_html=True)
-    st.markdown('<div class="card-title">Scenario Inputs</div>', unsafe_allow_html=True)
+    card1 = st.container(border=True)
+    with card1:
+        st.markdown('<div class="card-title">Scenario Inputs</div>', unsafe_allow_html=True)
 
-    all_tickers = sorted(COMPANY_BASELINE.keys())
-    ticker = st.selectbox("Company", all_tickers, index=all_tickers.index("MSFT") if "MSFT" in all_tickers else 0)
+        all_tickers = sorted(COMPANY_BASELINE.keys())
+        ticker = st.selectbox("Company", all_tickers, index=all_tickers.index("MSFT") if "MSFT" in all_tickers else 0)
 
-    baseline = COMPANY_BASELINE[ticker]
-    last_rev = baseline["last_revenue"]
-    cluster_label = baseline["cluster_label"]
+        baseline = COMPANY_BASELINE[ticker]
+        last_rev = baseline["last_revenue"]
+        cluster_label = baseline["cluster_label"]
 
-    cluster_id = int(baseline["cluster_auto"])
-    badge_class = {1: "badge-c1", 2: "badge-c2", 3: "badge-c3"}.get(cluster_id, "badge-c1")
-    cluster_short = {
-        "Cluster1_ProfitableHighMargin": "Profitable High-Margin",
-        "Cluster2_HypergrowthInvestment": "Hypergrowth Investment",
-        "Cluster3_PhysicalVariable": "Physical / Variable",
-    }.get(cluster_label, cluster_label)
+        cluster_id = int(baseline["cluster_auto"])
+        badge_class = {1: "badge-c1", 2: "badge-c2", 3: "badge-c3"}.get(cluster_id, "badge-c1")
+        cluster_short = {
+            "Cluster1_ProfitableHighMargin": "Profitable High-Margin",
+            "Cluster2_HypergrowthInvestment": "Hypergrowth Investment",
+            "Cluster3_PhysicalVariable": "Physical / Variable",
+        }.get(cluster_label, cluster_label)
 
-    st.markdown(f"""
-    <div class="cluster-badge {badge_class}">● {cluster_short}</div>
-    <div class="baseline-stats">
-        Last known revenue: <b>${last_rev:,.0f}</b> &nbsp;|&nbsp;
-        Last known gross margin: <b>{baseline['gross_margin_pct']:.1f}%</b>
-    </div>
-    """, unsafe_allow_html=True)
+        st.markdown(f"""
+        <div class="cluster-badge {badge_class}">● {cluster_short}</div>
+        <div class="baseline-stats">
+            Last known revenue: <b>${last_rev:,.0f}</b> &nbsp;|&nbsp;
+            Last known gross margin: <b>{baseline['gross_margin_pct']:.1f}%</b>
+        </div>
+        """, unsafe_allow_html=True)
 
-    revenue = st.number_input(
-        "Revenue assumption ($)",
-        min_value=0.0,
-        value=float(last_rev),
-        step=float(last_rev) * 0.01 if last_rev else 1_000_000.0,
-        format="%.0f",
-    )
+        revenue = st.number_input(
+            "Revenue assumption ($)",
+            min_value=0.0,
+            value=float(last_rev),
+            step=float(last_rev) * 0.01 if last_rev else 1_000_000.0,
+            format="%.0f",
+        )
 
-    st.markdown("**Macro overrides** (optional — leave default to use the model's standard prediction)")
+        st.markdown("**Macro overrides** (optional — leave default to use the model's standard prediction)")
 
-    use_macro = st.checkbox("Override macro conditions")
+        use_macro = st.checkbox("Override macro conditions")
 
-    inflation, rate, gdp = None, None, None
-    if use_macro:
-        m1, m2, m3 = st.columns(3)
-        with m1:
-            inflation = st.slider("Inflation (%)", -5.0, 30.0, 2.0, 0.5)
-        with m2:
-            rate = st.slider("Interest rate (%)", -5.0, 25.0, 4.5, 0.5)
-        with m3:
-            gdp = st.slider("GDP growth (%)", -20.0, 20.0, 1.0, 0.5)
+        inflation, rate, gdp = None, None, None
+        if use_macro:
+            m1, m2, m3 = st.columns(3)
+            with m1:
+                inflation = st.slider("Inflation (%)", -5.0, 30.0, 2.0, 0.5)
+            with m2:
+                rate = st.slider("Interest rate (%)", -5.0, 25.0, 4.5, 0.5)
+            with m3:
+                gdp = st.slider("GDP growth (%)", -20.0, 20.0, 1.0, 0.5)
 
-    run = st.button("Run scenario", type="primary", use_container_width=True)
-    st.markdown('</div>', unsafe_allow_html=True)
+        run = st.button("Run scenario", type="primary", use_container_width=True)
 
 with col2:
-    st.markdown('<div class="card">', unsafe_allow_html=True)
-    st.markdown('<div class="card-title">Results</div>', unsafe_allow_html=True)
+    card2 = st.container(border=True)
+    with card2:
+        st.markdown('<div class="card-title">Results</div>', unsafe_allow_html=True)
 
-    if run:
-        result = what_if_safe(ticker, revenue, inflation, rate, gdp)
+        if run:
+            result = what_if_safe(ticker, revenue, inflation, rate, gdp)
 
-        if not result["success"]:
-            for err in result["errors"]:
-                st.error(err)
-        else:
-            if result["crisis_mode"]:
-                st.markdown(f"""
-                <div class="crisis-banner">
-                    <div class="crisis-title">⚠ Crisis regime detected</div>
-                    <div class="crisis-body">
-                        A severity penalty of <b>-{result['crisis_penalty_pp']:.2f}pp</b> has been
-                        applied, anchored to historical worst-case quarterly margin compression
-                        for this cluster. This is an explicit, disclosed assumption — not a model
-                        prediction. Extreme macro inputs fall outside the training distribution
-                        of the underlying models.
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
-
-            st.markdown(f'<div class="method-pill">{result["prediction_method"]}</div>', unsafe_allow_html=True)
-
-            m1, m2 = st.columns(2)
-            with m1:
-                st.metric("Revenue (QoQ)", f"{result['revenue_qoq_growth']:+.1f}%")
-            with m2:
-                st.metric("Revenue (YoY)", f"{result['revenue_yoy_growth']:+.1f}%")
-
-            if result["macro_delta_applied"] != 0:
-                st.caption(f"Macro adjustment applied: {result['macro_delta_applied']:+.3f}pp to gross margin")
-
-            st.divider()
-
-            if "pessimistic_case" in result:
-                import plotly.graph_objects as go
-
-                cases = ["Pessimistic", "Base case", "Optimistic"]
-                gms = [
-                    result["pessimistic_case"]["gp_margin_pct"],
-                    result["base_case"]["gp_margin_pct"],
-                    result["optimistic_case"]["gp_margin_pct"],
-                ]
-                colors = ["#C45911", "#2E75B6", "#1E7145"]
-
-                fig = go.Figure(go.Bar(
-                    x=cases, y=gms, marker_color=colors,
-                    text=[f"{v:.1f}%" for v in gms], textposition="outside",
-                ))
-                fig.update_layout(
-                    height=280, margin=dict(t=10, b=10, l=10, r=10),
-                    yaxis_title="Gross margin (%)", showlegend=False,
-                )
-                st.plotly_chart(fig, use_container_width=True)
-
-                kpi_table = pd.DataFrame({
-                    "Pessimistic": result["pessimistic_case"],
-                    "Base case":   result["base_case"],
-                    "Optimistic":  result["optimistic_case"],
-                }).T[["gross_profit", "ebitda", "net_profit", "fcf"]]
-                kpi_table.columns = ["Gross Profit", "EBITDA", "Net Profit", "FCF"]
-                st.dataframe(
-                    kpi_table.style.format("${:,.0f}"),
-                    use_container_width=True,
-                )
-
+            if not result["success"]:
+                for err in result["errors"]:
+                    st.error(err)
             else:
-                bk = result["base_case"]
-                k1, k2, k3, k4, k5 = st.columns(5)
-                k1.metric("Gross Margin", f"{bk['gp_margin_pct']:.1f}%")
-                k2.metric("Gross Profit", f"${bk['gross_profit']/1e9:.2f}B")
-                k3.metric("EBITDA", f"${bk['ebitda']/1e9:.2f}B", f"{bk['ebitda_margin_pct']:.1f}%")
-                k4.metric("Net Profit", f"${bk['net_profit']/1e9:.2f}B", f"{bk['net_profit_margin_pct']:.1f}%")
-                k5.metric("FCF", f"${bk['fcf']/1e9:.2f}B", f"{bk['fcf_margin_pct']:.1f}%")
+                if result["crisis_mode"]:
+                    st.markdown(f"""
+                    <div class="crisis-banner">
+                        <div class="crisis-title">⚠ Crisis regime detected</div>
+                        <div class="crisis-body">
+                            A severity penalty of <b>-{result['crisis_penalty_pp']:.2f}pp</b> has been
+                            applied, anchored to historical worst-case quarterly margin compression
+                            for this cluster. This is an explicit, disclosed assumption — not a model
+                            prediction. Extreme macro inputs fall outside the training distribution
+                            of the underlying models.
+                        </div>
+                    </div>
+                    """, unsafe_allow_html=True)
 
-                with st.expander("Ratios used in this calculation"):
-                    r = bk["ratios_used"]
-                    st.write(f"OpEx/Revenue: {r['opex_ratio']*100:.1f}% (cluster median)")
-                    st.write(f"D&A/Revenue: {r['da_ratio']*100:.2f}% (company or cluster median)")
-                    st.write(f"Interest/Revenue: {r['int_ratio']*100:.2f}% (company or cluster median)")
-                    st.write(f"Effective tax rate: {r['tax_rate']*100:.1f}% (company or cluster median)")
-    else:
-        st.info("Configure a scenario and click **Run scenario** to see results.")
+                st.markdown(f'<div class="method-pill">{result["prediction_method"]}</div>', unsafe_allow_html=True)
 
-    st.markdown('</div>', unsafe_allow_html=True)
+                m1, m2 = st.columns(2)
+                with m1:
+                    st.metric("Revenue (QoQ)", f"{result['revenue_qoq_growth']:+.1f}%")
+                with m2:
+                    st.metric("Revenue (YoY)", f"{result['revenue_yoy_growth']:+.1f}%")
+
+                if result["macro_delta_applied"] != 0:
+                    st.caption(f"Macro adjustment applied: {result['macro_delta_applied']:+.3f}pp to gross margin")
+
+                st.divider()
+
+                if "pessimistic_case" in result:
+                    import plotly.graph_objects as go
+
+                    cases = ["Pessimistic", "Base case", "Optimistic"]
+                    gms = [
+                        result["pessimistic_case"]["gp_margin_pct"],
+                        result["base_case"]["gp_margin_pct"],
+                        result["optimistic_case"]["gp_margin_pct"],
+                    ]
+                    colors = ["#C45911", "#2E75B6", "#1E7145"]
+
+                    fig = go.Figure(go.Bar(
+                        x=cases, y=gms, marker_color=colors,
+                        text=[f"{v:.1f}%" for v in gms], textposition="outside",
+                    ))
+                    fig.update_layout(
+                        height=280, margin=dict(t=10, b=10, l=10, r=10),
+                        yaxis_title="Gross margin (%)", showlegend=False,
+                    )
+                    st.plotly_chart(fig, use_container_width=True)
+
+                    kpi_table = pd.DataFrame({
+                        "Pessimistic": result["pessimistic_case"],
+                        "Base case":   result["base_case"],
+                        "Optimistic":  result["optimistic_case"],
+                    }).T[["gross_profit", "ebitda", "net_profit", "fcf"]]
+                    kpi_table.columns = ["Gross Profit", "EBITDA", "Net Profit", "FCF"]
+                    st.dataframe(
+                        kpi_table.style.format("${:,.0f}"),
+                        use_container_width=True,
+                    )
+
+                else:
+                    bk = result["base_case"]
+                    k1, k2, k3, k4, k5 = st.columns(5)
+                    k1.metric("Gross Margin", f"{bk['gp_margin_pct']:.1f}%")
+                    k2.metric("Gross Profit", f"${bk['gross_profit']/1e9:.2f}B")
+                    k3.metric("EBITDA", f"${bk['ebitda']/1e9:.2f}B", f"{bk['ebitda_margin_pct']:.1f}%")
+                    k4.metric("Net Profit", f"${bk['net_profit']/1e9:.2f}B", f"{bk['net_profit_margin_pct']:.1f}%")
+                    k5.metric("FCF", f"${bk['fcf']/1e9:.2f}B", f"{bk['fcf_margin_pct']:.1f}%")
+
+                    with st.expander("Ratios used in this calculation"):
+                        r = bk["ratios_used"]
+                        st.write(f"OpEx/Revenue: {r['opex_ratio']*100:.1f}% (cluster median)")
+                        st.write(f"D&A/Revenue: {r['da_ratio']*100:.2f}% (company or cluster median)")
+                        st.write(f"Interest/Revenue: {r['int_ratio']*100:.2f}% (company or cluster median)")
+                        st.write(f"Effective tax rate: {r['tax_rate']*100:.1f}% (company or cluster median)")
+        else:
+            st.info("Configure a scenario and click **Run scenario** to see results.")
 
 st.markdown("""
 <div style="text-align:center; color:#9CA3AF; font-size:13px; margin-top: 12px; padding: 16px;">
