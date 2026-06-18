@@ -23,6 +23,180 @@ st.set_page_config(
 )
 
 # ─────────────────────────────────────────────────────────────
+# CUSTOM STYLING
+# ─────────────────────────────────────────────────────────────
+st.markdown("""
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap');
+
+    html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
+
+    .stApp {
+        background: #F8F7FC;
+    }
+
+    /* Hide default streamlit chrome we don't need */
+    #MainMenu, footer { visibility: hidden; }
+
+    /* ── Header banner ──────────────────────────────────── */
+    .brand-header {
+        background: linear-gradient(135deg, #4F46E5 0%, #6366F1 50%, #4338CA 100%);
+        border-radius: 20px;
+        padding: 32px 40px;
+        margin-bottom: 28px;
+        box-shadow: 0 8px 24px rgba(79, 70, 229, 0.25);
+    }
+    .brand-eyebrow {
+        color: rgba(255,255,255,0.75);
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 6px;
+    }
+    .brand-title {
+        color: white;
+        font-size: 32px;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        margin: 0;
+        line-height: 1.2;
+    }
+    .brand-subtitle {
+        color: rgba(255,255,255,0.85);
+        font-size: 15px;
+        font-weight: 400;
+        margin-top: 8px;
+        max-width: 720px;
+        line-height: 1.5;
+    }
+
+    /* ── Card containers ────────────────────────────────── */
+    .card {
+        background: white;
+        border-radius: 16px;
+        padding: 24px 28px;
+        box-shadow: 0 2px 12px rgba(79, 70, 229, 0.06);
+        border: 1px solid rgba(79, 70, 229, 0.08);
+        margin-bottom: 16px;
+    }
+    .card-title {
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: #6366F1;
+        margin-bottom: 16px;
+    }
+
+    /* ── Cluster badge ───────────────────────────────────── */
+    .cluster-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 14px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 4px;
+    }
+    .badge-c1 { background: #DCFCE7; color: #15803D; }
+    .badge-c2 { background: #FEF3C7; color: #B45309; }
+    .badge-c3 { background: #DBEAFE; color: #1D4ED8; }
+
+    .baseline-stats {
+        font-size: 13px;
+        color: #6B7280;
+        margin-top: 8px;
+    }
+    .baseline-stats b { color: #374151; }
+
+    /* ── Method pill ─────────────────────────────────────── */
+    .method-pill {
+        display: inline-block;
+        background: #EEF2FF;
+        color: #4338CA;
+        padding: 6px 14px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 600;
+        font-family: 'JetBrains Mono', monospace;
+        margin-bottom: 16px;
+    }
+
+    /* ── Crisis banner ───────────────────────────────────── */
+    .crisis-banner {
+        background: linear-gradient(135deg, #FEF2F2 0%, #FEE2E2 100%);
+        border: 1.5px solid #FCA5A5;
+        border-radius: 14px;
+        padding: 18px 22px;
+        margin-bottom: 20px;
+    }
+    .crisis-title {
+        color: #B91C1C;
+        font-weight: 700;
+        font-size: 15px;
+        margin-bottom: 6px;
+    }
+    .crisis-body {
+        color: #991B1B;
+        font-size: 13.5px;
+        line-height: 1.5;
+    }
+
+    /* ── Metric cards ────────────────────────────────────── */
+    div[data-testid="stMetric"] {
+        background: white;
+        border-radius: 14px;
+        padding: 16px 18px;
+        border: 1px solid rgba(79, 70, 229, 0.08);
+        box-shadow: 0 2px 8px rgba(79, 70, 229, 0.05);
+    }
+    div[data-testid="stMetricLabel"] {
+        font-size: 12.5px;
+        font-weight: 600;
+        color: #6B7280;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    div[data-testid="stMetricValue"] {
+        font-size: 24px;
+        font-weight: 700;
+        color: #1E1B4B;
+    }
+
+    /* ── Buttons ──────────────────────────────────────────── */
+    .stButton button {
+        background: linear-gradient(135deg, #4F46E5 0%, #6366F1 100%) !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 12px !important;
+        font-weight: 700 !important;
+        padding: 12px !important;
+        box-shadow: 0 4px 14px rgba(79, 70, 229, 0.3) !important;
+        transition: transform 0.15s ease !important;
+    }
+    .stButton button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 18px rgba(79, 70, 229, 0.4) !important;
+    }
+
+    /* ── Section labels ──────────────────────────────────── */
+    h3 {
+        font-weight: 700 !important;
+        color: #1E1B4B !important;
+        letter-spacing: -0.3px !important;
+    }
+
+    /* ── Dataframe ────────────────────────────────────────── */
+    div[data-testid="stDataFrame"] {
+        border-radius: 12px;
+        overflow: hidden;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# ─────────────────────────────────────────────────────────────
 # LOAD BUNDLE (cached — only loads once per session)
 # ─────────────────────────────────────────────────────────────
 @st.cache_resource
@@ -302,22 +476,24 @@ def what_if_safe(ticker, revenue, inflation=None, rate=None, gdp=None):
 # ─────────────────────────────────────────────────────────────
 # UI
 # ─────────────────────────────────────────────────────────────
-st.title("Sector-Based Cost & Profit Prediction")
-st.caption("Scenario engine — LaMagnetica TFM, EADA Business School")
-
-st.markdown(
-    "Enter a revenue assumption for a company to see how it propagates "
-    "through the cost structure into Gross Profit, EBITDA, Net Profit, "
-    "and Free Cash Flow. The model does not forecast revenue — it answers: "
-    "*given this revenue, what will the cost structure look like?*"
-)
-
-st.divider()
+st.markdown("""
+<div class="brand-header">
+    <div class="brand-eyebrow">LaMagnetica · EADA Business School TFM</div>
+    <p class="brand-title">Sector-Based Cost & Profit Prediction</p>
+    <p class="brand-subtitle">
+        Enter a revenue assumption for a company to see how it propagates through
+        the cost structure into Gross Profit, EBITDA, Net Profit, and Free Cash Flow.
+        The model does not forecast revenue — it answers: given this revenue,
+        what will the cost structure look like?
+    </p>
+</div>
+""", unsafe_allow_html=True)
 
 col1, col2 = st.columns([1, 1])
 
 with col1:
-    st.subheader("Scenario inputs")
+    st.markdown('<div class="card">', unsafe_allow_html=True)
+    st.markdown('<div class="card-title">Scenario Inputs</div>', unsafe_allow_html=True)
 
     all_tickers = sorted(COMPANY_BASELINE.keys())
     ticker = st.selectbox("Company", all_tickers, index=all_tickers.index("MSFT") if "MSFT" in all_tickers else 0)
@@ -326,7 +502,21 @@ with col1:
     last_rev = baseline["last_revenue"]
     cluster_label = baseline["cluster_label"]
 
-    st.caption(f"**Cluster:** {cluster_label}  |  **Last known revenue:** ${last_rev:,.0f}  |  **Last known gross margin:** {baseline['gross_margin_pct']:.1f}%")
+    cluster_id = int(baseline["cluster_auto"])
+    badge_class = {1: "badge-c1", 2: "badge-c2", 3: "badge-c3"}.get(cluster_id, "badge-c1")
+    cluster_short = {
+        "Cluster1_ProfitableHighMargin": "Profitable High-Margin",
+        "Cluster2_HypergrowthInvestment": "Hypergrowth Investment",
+        "Cluster3_PhysicalVariable": "Physical / Variable",
+    }.get(cluster_label, cluster_label)
+
+    st.markdown(f"""
+    <div class="cluster-badge {badge_class}">● {cluster_short}</div>
+    <div class="baseline-stats">
+        Last known revenue: <b>${last_rev:,.0f}</b> &nbsp;|&nbsp;
+        Last known gross margin: <b>{baseline['gross_margin_pct']:.1f}%</b>
+    </div>
+    """, unsafe_allow_html=True)
 
     revenue = st.number_input(
         "Revenue assumption ($)",
@@ -351,9 +541,11 @@ with col1:
             gdp = st.slider("GDP growth (%)", -20.0, 20.0, 1.0, 0.5)
 
     run = st.button("Run scenario", type="primary", use_container_width=True)
+    st.markdown('</div>', unsafe_allow_html=True)
 
 with col2:
-    st.subheader("Results")
+    st.markdown('<div class="card">', unsafe_allow_html=True)
+    st.markdown('<div class="card-title">Results</div>', unsafe_allow_html=True)
 
     if run:
         result = what_if_safe(ticker, revenue, inflation, rate, gdp)
@@ -363,17 +555,20 @@ with col2:
                 st.error(err)
         else:
             if result["crisis_mode"]:
-                st.warning(
-                    f"⚠ **Crisis regime detected.** A severity penalty of "
-                    f"-{result['crisis_penalty_pp']:.2f}pp has been applied, "
-                    f"anchored to historical worst-case quarterly margin "
-                    f"compression for this cluster. This is an explicit "
-                    f"assumption, not a model prediction — extreme macro "
-                    f"inputs fall outside the training distribution of the "
-                    f"underlying models."
-                )
+                st.markdown(f"""
+                <div class="crisis-banner">
+                    <div class="crisis-title">⚠ Crisis regime detected</div>
+                    <div class="crisis-body">
+                        A severity penalty of <b>-{result['crisis_penalty_pp']:.2f}pp</b> has been
+                        applied, anchored to historical worst-case quarterly margin compression
+                        for this cluster. This is an explicit, disclosed assumption — not a model
+                        prediction. Extreme macro inputs fall outside the training distribution
+                        of the underlying models.
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
 
-            st.caption(f"**Method:** {result['prediction_method']}")
+            st.markdown(f'<div class="method-pill">{result["prediction_method"]}</div>', unsafe_allow_html=True)
 
             m1, m2 = st.columns(2)
             with m1:
@@ -387,8 +582,6 @@ with col2:
             st.divider()
 
             if "pessimistic_case" in result:
-                st.markdown("**Gross margin — historical range** *(unconditional, not scenario-responsive)*")
-
                 import plotly.graph_objects as go
 
                 cases = ["Pessimistic", "Base case", "Optimistic"]
@@ -438,11 +631,14 @@ with col2:
     else:
         st.info("Configure a scenario and click **Run scenario** to see results.")
 
-st.divider()
-st.caption(
-    "Model notes: Cluster 1 (Profitable High-Margin) uses a naive baseline — "
-    "no model outperformed predicting zero margin change in backtesting. "
-    "Clusters 2 and 3 use Random Forest models on quarter-over-quarter "
-    "gross margin change. All KPI assumptions (interest, tax, D&A, FCF) are "
-    "derived from company or cluster historical medians, not flat constants."
-)
+    st.markdown('</div>', unsafe_allow_html=True)
+
+st.markdown("""
+<div style="text-align:center; color:#9CA3AF; font-size:13px; margin-top: 12px; padding: 16px;">
+    Model notes: Cluster 1 (Profitable High-Margin) uses a naive baseline — no model
+    outperformed predicting zero margin change in backtesting. Clusters 2 and 3 use
+    Random Forest models on quarter-over-quarter gross margin change. All KPI assumptions
+    (interest, tax, D&A, FCF) are derived from company or cluster historical medians,
+    not flat constants.
+</div>
+""", unsafe_allow_html=True)
