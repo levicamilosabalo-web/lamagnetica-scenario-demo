@@ -629,12 +629,24 @@ with col2:
 
                 else:
                     bk = result["base_case"]
-                    k1, k2, k3, k4, k5 = st.columns(5)
-                    k1.metric("Gross Margin", f"{bk['gp_margin_pct']:.1f}%")
-                    k2.metric("Gross Profit", f"${bk['gross_profit']/1e9:.2f}B")
-                    k3.metric("EBITDA", f"${bk['ebitda']/1e9:.2f}B", f"{bk['ebitda_margin_pct']:.1f}%")
-                    k4.metric("Net Profit", f"${bk['net_profit']/1e9:.2f}B", f"{bk['net_profit_margin_pct']:.1f}%")
-                    k5.metric("FCF", f"${bk['fcf']/1e9:.2f}B", f"{bk['fcf_margin_pct']:.1f}%")
+
+                    def fmt_money(val):
+                        abs_val = abs(val)
+                        if abs_val >= 1e9:
+                            return f"${val/1e9:.2f}B"
+                        elif abs_val >= 1e6:
+                            return f"${val/1e6:.1f}M"
+                        else:
+                            return f"${val:,.0f}"
+
+                    row1a, row1b, row1c = st.columns(3)
+                    row1a.metric("Gross Margin", f"{bk['gp_margin_pct']:.1f}%")
+                    row1b.metric("Gross Profit", fmt_money(bk["gross_profit"]))
+                    row1c.metric("EBITDA", fmt_money(bk["ebitda"]), f"{bk['ebitda_margin_pct']:.1f}% margin")
+
+                    row2a, row2b = st.columns(2)
+                    row2a.metric("Net Profit", fmt_money(bk["net_profit"]), f"{bk['net_profit_margin_pct']:.1f}% margin")
+                    row2b.metric("Free Cash Flow", fmt_money(bk["fcf"]), f"{bk['fcf_margin_pct']:.1f}% margin")
 
                     with st.expander("Ratios used in this calculation"):
                         r = bk["ratios_used"]
