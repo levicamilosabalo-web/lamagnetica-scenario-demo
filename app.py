@@ -485,14 +485,20 @@ def what_if_safe(ticker, revenue, inflation=None, rate=None, gdp=None):
 # ─────────────────────────────────────────────────────────────
 st.markdown("""
 <div class="brand-header">
-    <div class="brand-eyebrow">Scenario Engine</div>
-    <p class="brand-title">LaMagnet</p>
-    <p class="brand-subtitle">
-        Enter a revenue assumption for a company to see how it propagates through
-        the cost structure into Gross Profit, EBITDA, Net Profit, and Free Cash Flow.
-        The model does not forecast revenue — it answers: given this revenue,
-        what will the cost structure look like?
-    </p>
+    <div style="display:flex; align-items:flex-start; gap:20px;">
+        <img src="https://s3-eu-west-1.amazonaws.com/sortlist-core-api/7HudFy6iHTEpM6ik5KjxfM7t"
+             style="height:56px; width:auto; border-radius:8px; margin-top:2px;" />
+        <div>
+            <div class="brand-eyebrow">Scenario Engine</div>
+            <p class="brand-title">LaMagnet</p>
+            <p class="brand-subtitle">
+                Enter a revenue assumption for a company to see how it propagates through
+                the cost structure into Gross Profit, EBITDA, Net Profit, and Free Cash Flow.
+                The model does not forecast revenue — it answers: given this revenue,
+                what will the cost structure look like?
+            </p>
+        </div>
+    </div>
 </div>
 """, unsafe_allow_html=True)
 
