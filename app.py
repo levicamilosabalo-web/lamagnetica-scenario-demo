@@ -32,7 +32,7 @@ st.markdown("""
     html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
 
     .stApp {
-        background: #F8F7FC;
+        background: #FAFAF8;
     }
 
     /* Hide default streamlit chrome we don't need */
@@ -40,16 +40,17 @@ st.markdown("""
 
     /* ── Header banner ──────────────────────────────────── */
     .brand-header {
-        background: linear-gradient(135deg, #4F46E5 0%, #6366F1 50%, #4338CA 100%);
+        background: linear-gradient(135deg, #161616 0%, #232323 60%, #161616 100%);
         border-radius: 20px;
         padding: 32px 40px;
         margin-bottom: 28px;
-        box-shadow: 0 8px 24px rgba(79, 70, 229, 0.25);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+        border: 1px solid #2E2E2E;
     }
     .brand-eyebrow {
-        color: rgba(255,255,255,0.75);
+        color: #F5C518;
         font-size: 13px;
-        font-weight: 600;
+        font-weight: 700;
         letter-spacing: 2px;
         text-transform: uppercase;
         margin-bottom: 6px;
@@ -63,7 +64,7 @@ st.markdown("""
         line-height: 1.2;
     }
     .brand-subtitle {
-        color: rgba(255,255,255,0.85);
+        color: rgba(255,255,255,0.78);
         font-size: 15px;
         font-weight: 400;
         margin-top: 8px;
@@ -72,21 +73,23 @@ st.markdown("""
     }
 
     /* ── Card containers ────────────────────────────────── */
-    .card {
-        background: white;
-        border-radius: 16px;
-        padding: 24px 28px;
-        box-shadow: 0 2px 12px rgba(79, 70, 229, 0.06);
-        border: 1px solid rgba(79, 70, 229, 0.08);
-        margin-bottom: 16px;
-    }
     .card-title {
         font-size: 13px;
         font-weight: 700;
         letter-spacing: 1px;
         text-transform: uppercase;
-        color: #6366F1;
+        color: #161616;
+        border-bottom: 2px solid #F5C518;
+        padding-bottom: 8px;
         margin-bottom: 16px;
+        display: inline-block;
+    }
+
+    div[data-testid="stVerticalBlockBorderWrapper"] {
+        border-radius: 16px !important;
+    }
+    div[data-testid="stContainer"] {
+        border-color: rgba(22,22,22,0.10) !important;
     }
 
     /* ── Cluster badge ───────────────────────────────────── */
@@ -100,9 +103,9 @@ st.markdown("""
         font-weight: 600;
         margin-bottom: 4px;
     }
-    .badge-c1 { background: #DCFCE7; color: #15803D; }
-    .badge-c2 { background: #FEF3C7; color: #B45309; }
-    .badge-c3 { background: #DBEAFE; color: #1D4ED8; }
+    .badge-c1 { background: #1A1A1A; color: #F5C518; }
+    .badge-c2 { background: #FEF3C7; color: #92400E; }
+    .badge-c3 { background: #F0EEE6; color: #44403C; }
 
     .baseline-stats {
         font-size: 13px;
@@ -114,8 +117,9 @@ st.markdown("""
     /* ── Method pill ─────────────────────────────────────── */
     .method-pill {
         display: inline-block;
-        background: #EEF2FF;
-        color: #4338CA;
+        background: #FFF8E1;
+        color: #7A5C00;
+        border: 1px solid #F5C518;
         padding: 6px 14px;
         border-radius: 999px;
         font-size: 13px;
@@ -126,31 +130,32 @@ st.markdown("""
 
     /* ── Crisis banner ───────────────────────────────────── */
     .crisis-banner {
-        background: linear-gradient(135deg, #FEF2F2 0%, #FEE2E2 100%);
-        border: 1.5px solid #FCA5A5;
+        background: linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 100%);
+        border: 1.5px solid #F5C518;
         border-radius: 14px;
         padding: 18px 22px;
         margin-bottom: 20px;
     }
     .crisis-title {
-        color: #B91C1C;
+        color: #F5C518;
         font-weight: 700;
         font-size: 15px;
         margin-bottom: 6px;
     }
     .crisis-body {
-        color: #991B1B;
+        color: rgba(255,255,255,0.82);
         font-size: 13.5px;
         line-height: 1.5;
     }
+    .crisis-body b { color: #F5C518; }
 
     /* ── Metric cards ────────────────────────────────────── */
     div[data-testid="stMetric"] {
-        background: white;
+        background: #FAFAF8;
         border-radius: 14px;
         padding: 16px 18px;
-        border: 1px solid rgba(79, 70, 229, 0.08);
-        box-shadow: 0 2px 8px rgba(79, 70, 229, 0.05);
+        border: 1px solid rgba(22,22,22,0.08);
+        border-left: 3px solid #F5C518;
     }
     div[data-testid="stMetricLabel"] {
         font-size: 12.5px;
@@ -162,29 +167,31 @@ st.markdown("""
     div[data-testid="stMetricValue"] {
         font-size: 24px;
         font-weight: 700;
-        color: #1E1B4B;
+        color: #161616;
     }
 
     /* ── Buttons ──────────────────────────────────────────── */
     .stButton button {
-        background: linear-gradient(135deg, #4F46E5 0%, #6366F1 100%) !important;
-        color: white !important;
+        background: #F5C518 !important;
+        color: #161616 !important;
         border: none !important;
         border-radius: 12px !important;
         font-weight: 700 !important;
         padding: 12px !important;
-        box-shadow: 0 4px 14px rgba(79, 70, 229, 0.3) !important;
+        box-shadow: 0 4px 14px rgba(245, 197, 24, 0.35) !important;
         transition: transform 0.15s ease !important;
     }
     .stButton button:hover {
         transform: translateY(-1px);
-        box-shadow: 0 6px 18px rgba(79, 70, 229, 0.4) !important;
+        background: #FFD23F !important;
+        box-shadow: 0 6px 18px rgba(245, 197, 24, 0.5) !important;
     }
+    .stButton button p { color: #161616 !important; }
 
     /* ── Section labels ──────────────────────────────────── */
     h3 {
         font-weight: 700 !important;
-        color: #1E1B4B !important;
+        color: #161616 !important;
         letter-spacing: -0.3px !important;
     }
 
@@ -591,7 +598,7 @@ with col2:
                         result["base_case"]["gp_margin_pct"],
                         result["optimistic_case"]["gp_margin_pct"],
                     ]
-                    colors = ["#C45911", "#2E75B6", "#1E7145"]
+                    colors = ["#161616", "#F5C518", "#8A8A8A"]
 
                     fig = go.Figure(go.Bar(
                         x=cases, y=gms, marker_color=colors,
